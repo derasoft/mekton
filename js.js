@@ -389,19 +389,17 @@ class EquipBase {
     checkSlaveSizes() {
         let size = this.space;
         for (let c in this.slaveParts) {
-            if (size + this.slaveParts[c].space >= this.spaceFull) {
-                if (size < this.spaceFull) {
-                    this.slaveParts[c].space = this.spaceFull - size;
-                    size += this.slaveParts[c].space;
-                }
-                else {
-                    this.slaveParts[c].space = 0;
-                }
-                this.slaveParts[c].inGUI.space.innerHTML = ` | Space: ${this.slaveParts[c].space}`
+            if (size >= this.slaveParts[c].space) {
+                size -= this.slaveParts[c].space;
             }
             else {
-                size += this.slaveParts[c].space;
+                delSlave(this.slaveParts[c].equipCode, false);
             }
+        }
+    }
+    destructSlaves() {
+        for (let c in this.slaveParts) {
+            delSlave(this.slaveParts[c].equipCode, false);
         }
     }
 }
@@ -592,11 +590,10 @@ class Beam extends EquipBase {
         if (newa.fragile == true) newa.mass = 0.5
         else newa.kills = newa.cp/2;
         newa.spaceFull = newa.cp;
-        if (this.slaveParts.length == 0) newa.space = newa.spaceFull;
-        else if (this.space > this.spaceFull) this.space = this.spaceFull;
-        $(`#status${this.equipCode}`)[0].innerHTML = newa.cp + ' CP, Range: ' + (newa.range * newa.rangemod) + ', Max. Range: ' + (newa.range * newa.rangemod)*(newa.range * newa.rangemod);
+        this.space = this.spaceFull;
         super.updSlaveNames();
         super.checkSlaveSizes();
+        $(`#status${this.equipCode}`)[0].innerHTML = newa.cp + ' CP, Range: ' + (newa.range * newa.rangemod) + ', Max. Range: ' + (newa.range * newa.rangemod)*(newa.range * newa.rangemod);
         callUpdTotal();
     }
     updFromJSON(x) {
@@ -773,7 +770,8 @@ function delEquip(x) {
     let c = x.indexOf('_'); //cashe variable
     let whatLimb = x.slice(0, c);
     let whatEq = x.slice(c+1);
-    y = getEquipByCode(x);
+    let y = getEquipByCode(x);
+    y.destructSlaves();
     y.inGUI.remove();
     for (c in meck[whatLimb].contains) {
         if (meck[whatLimb].contains[c] == y) {
@@ -785,15 +783,15 @@ function delEquip(x) {
     if (meck[whatLimb].contains.length == 0) {$(`#emptyEquipLabel${whatLimb}`).show()}; 
     updTotal();
 }
-function delSlave(x) {
+function delSlave(x, returnSpace = true) {
     let c = x.indexOf('_'); //cashe variable
     let whatLimb = x.slice(0, c);
     let whatEq = x.slice(c+1);
-    y = getEquipByCode(x);
+    let y = getEquipByCode(x);
     y.inGUI.remove();
     for (c in y.masterLink.slaveParts) {
         if (y.masterLink.slaveParts[c] == y) {
-            y.masterLink.space += y.space;
+            if (returnSpace) y.masterLink.space += y.space;
             y.masterLink.slaveParts.splice(c, 1);
         }
     }
