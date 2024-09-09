@@ -1,0 +1,51 @@
+/* Стили 2.0 */
+body {
+  overflow: hidden;
+}
+div {
+  border: 2px solid;
+  margin: 2px;
+  padding: 2px;
+}
+
+/*Основное окно */
+ .mainWindow { 
+  display: flex;
+  border: initial;
+}
+.equipList {
+  width: 30%;
+  overflow: auto;
+  height: 85vh;
+}
+.mechWindow {
+  width: 70%;
+  overflow: auto;
+  height: 85vh;
+}
+.limbWindow {}
+.limbShell {
+  display: flex;
+  border:initial;
+  margin: initial;
+  padding: initial;
+}
+.limbCore {
+  flex-grow: 1;
+}
+.armorBlock {
+  flex-grow: 1;
+}
+.comArmorBlock {
+  flex-grow: 1;
+}
+.limbMount {}
+.limbEquip {}
+.equipPool {}
+.weapon {}
+.systemMessage {
+  background-color: white;
+  position: absolute;
+  right: 30%;
+  bottom: 30%;
+}

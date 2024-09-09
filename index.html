@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Meckton Mech Creator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="jquery-3.7.1.min.js"></script>
+    <p>
+        <span id="stat">Статус</span>
+        <button onclick="saveJsonTotal()">Save</button>
+        <button onclick="loadJsonShowDialog()">Load</button>
+    </p>
+    <div class="mainWindow">
+        <div class="mechWindow"></div>
+        <div class="equipList"><h2>Limbs</h2>
+            <p><button onclick="addLimb('H')">+</button>   Head</p>
+            <p><button onclick="addLimb('A')">+</button>   Arm</p>
+            <p><button onclick="addLimb('L')">+</button>   Leg</p>
+            <p><button onclick="addLimb('W')">+</button>   Wing & Tail</p>
+            <p><button onclick="addLimb('P')">+</button>   Pod</p>
+            <p><button onclick="addLimb('O')">+</button>   Wheels & Treads</p>
+            <h2>Armor (drag that to armor section)</h2>
+            <p draggable="true" ondragstart="event.dataTransfer.setData('text/plain', 'armor')">   Armor</p>
+            <h2>Weapons (drag that to equipment section)</h2>
+            <p draggable="true" ondragstart="event.dataTransfer.setData('text/plain', 'beam')">   Beam</p></div>
+    </div>
+    
+    <script src="js.js"></script>
+</body>
+</html>
+
